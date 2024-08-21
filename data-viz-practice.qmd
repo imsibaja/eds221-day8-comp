@@ -237,6 +237,6 @@ ggplot(mono, aes(year, lake_level)) +
            label = "unrestricted diversions\n(1941 - 1983)",
            size=3) +
   theme_minimal()
-/```
+```
 
 
