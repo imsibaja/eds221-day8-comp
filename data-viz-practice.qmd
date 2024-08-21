@@ -1,0 +1,159 @@
+---
+title: "EDS 221: Day 8 Interactive"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+# install new plotting packages
+# install.packages("patchwork")
+# install.packages("ggrepel")
+# install.packages("gghighlight")
+# install.packages("paletteer")
+# install.packages("ggExtra")
+# install.packages("ggbeeswarm")
+```
+
+```{r}
+# attach packages
+library(tidyverse)
+library(here)
+library(janitor)
+library("patchwork")
+library("ggrepel")
+library("gghighlight")
+library("paletteer")
+library("ggExtra")
+library("ggbeeswarm")
+```
+
+
+```{r}
+lizards <- read_csv(here("data_tidy", "lizards.csv"))
+```
+
+```{r}
+ggplot(lizards, aes(total_length, weight)) + 
+  geom_point() +
+  geom_line()
+
+ggplot(lizards) + 
+  geom_point(aes(total_length, weight)) 
+
+ggplot() + 
+  geom_point(lizards, aes(total_length, weight))
+```
+
+```{r}
+ggplot(data=lizards, aes(total_length)) +
+  geom_histogram()
+```
+
+
+Jitter plots are best with on continuous and one categorical 
+
+```{r}
+# good
+ggplot(lizards, aes(weight, common_name))+
+  geom_jitter(aes(color=common_name))
+# bad 
+ggplot(lizards, aes(weight, common_name))+
+  geom_point()
+```
+
+
+```{r}
+ggplot(lizards, aes(weight))+
+  geom_histogram(color="orange", 
+                 fill="purple",
+                 linewidth=2,
+                 linetype="dotted")
+```
+
+```{r}
+ggplot(lizards, aes(total_length, weight)) +
+  geom_point(color="#DDC3D0",
+             fill="#3E92CC",
+             shape=22,
+             size=5,
+             alpha=0.2)
+```
+
+```{r}
+ggplot(lizards, aes(total_length, weight)) +
+  geom_point(aes(color = common_name, 
+                 size = total_length),
+             alpha = 0.5)+
+  scale_color_discrete(type = c("#AA4465","#EDF0DA","#EDF0DA",
+                                  "#EDF0DA","#EDF0DA","#EDF0DA","#EDF0DA"))
+  # scale_color_brewer(palette = "Set3")
+```
+
+```{r}
+ggplot(lizards, aes(site,weight)) +
+  geom_jitter(aes(color=common_name)) +
+  theme_light()
+```
+
+```{r}
+ggplot(lizards, aes(total_length,weight)) +
+  geom_point() +
+  labs(x="Total Length (mm)",
+       y="Weight (grams)",
+       title="Lizard Size")
+
+```
+
+
+
+```{r}
+# ~ acts as group by, filters by matrix
+ggplot(lizards, aes(total_length, weight)) +
+  geom_point() +
+  facet_wrap(~common_name, ncol=3, scales = "free") +
+  labs(x="Total length (mm)",
+       y="Weight (grams")
+```
+
+```{r}
+ggplot(lizards, aes(total_length, weight)) +
+  geom_point()+
+  facet_grid(sex ~ tail)
+```
+
+```{r}
+# make a geo bar graph with viz in order of count instead of alphabetical order
+lizards_counts <- lizards |> 
+  count(common_name) |> 
+  rename(n_lizards = n)
+
+ggplot(lizards_counts, aes(n_lizards, fct_reorder(common_name, n_lizards))) +
+  geom_col()
+```
+
+```{r}
+ggplot(lizards, aes(total_length, weight)) +
+  geom_point(aes(color = common_name),
+             size=2) +
+  theme_minimal() +
+  labs(x="Total length (mm",
+       y= "Weight (g)",
+       color = "Lizard species") +
+  facet_wrap(~common_name, scales="free")
+```
+
+```{r}
+# ~ acts as group by, filters by matrix
+# b w 
+#    f
+#    j
+#    m
+ggplot(lizards, aes(y=fct_infreq(common_name))) +
+  geom_bar(aes(fill=site)) +
+  theme_minimal() +
+  labs(x= "Lizard counts",
+       y= "Species (common name)") +
+  facet_grid(sex~tail)
+```
+
