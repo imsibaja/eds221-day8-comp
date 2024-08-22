@@ -6,13 +6,13 @@ editor_options:
 ---
 
 ```{r}
-# install new plotting packages
-# install.packages("patchwork")
-# install.packages("ggrepel")
-# install.packages("gghighlight")
-# install.packages("paletteer")
-# install.packages("ggExtra")
-# install.packages("ggbeeswarm")
+install new plotting packages
+install.packages("patchwork")
+install.packages("ggrepel")
+install.packages("gghighlight")
+install.packages("paletteer")
+install.packages("ggExtra")
+install.packages("ggbeeswarm")
 ```
 
 ```{r}
@@ -82,8 +82,8 @@ ggplot(lizards, aes(total_length, weight)) +
 
 ```{r}
 ggplot(lizards, aes(total_length, weight)) +
-  geom_point(aes(color = common_name, 
-                 size = total_length),
+  geom_point(aes(color = common_name,
+             size = total_length),
              alpha = 0.5)+
   scale_color_discrete(type = c("#AA4465","#EDF0DA","#EDF0DA",
                                   "#EDF0DA","#EDF0DA","#EDF0DA","#EDF0DA"))
